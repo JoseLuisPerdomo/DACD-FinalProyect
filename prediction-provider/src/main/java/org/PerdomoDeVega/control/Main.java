@@ -7,7 +7,8 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        String coordinatesPath = "src/main/resources/Locations";
+        //TODO Resolver problema de la ApiKey y de las rutas absolutas y relativas.
+        String coordinatesPath = "prediction-provider/src/main/resources/Locations";
         WeatherController weatherController = new WeatherController(coordinatesPath, new OpenWeatherMapProvider(), new SQLWeatherStore());
 
         List<Location> locationList = weatherController.getLocations();
