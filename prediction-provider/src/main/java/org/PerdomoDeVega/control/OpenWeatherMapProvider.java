@@ -24,7 +24,6 @@ public class OpenWeatherMapProvider implements WeatherProvider{
     }
 
 
-    @Override
     public List<Location> saveLocations(String path) {
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String line;
@@ -52,7 +51,6 @@ public class OpenWeatherMapProvider implements WeatherProvider{
         }
     }
 
-    @Override
     public List<String> addTableNames(List<Location> locationList) {
 
         List<String> tableNames = new ArrayList<>(locationList.size());
@@ -112,7 +110,6 @@ public class OpenWeatherMapProvider implements WeatherProvider{
             System.out.println(day);
             String temperature = weatherJson.getAsJsonObject("main").get("temp").getAsString();
             String precipitation = weatherJson.get("pop").getAsString();
-
             String humidity = weatherJson.getAsJsonObject("main").get("humidity").getAsString();
             String clouds = weatherJson.getAsJsonObject("clouds").get("all").getAsString();
             String windSpeed = weatherJson.getAsJsonObject("wind").get("speed").getAsString();

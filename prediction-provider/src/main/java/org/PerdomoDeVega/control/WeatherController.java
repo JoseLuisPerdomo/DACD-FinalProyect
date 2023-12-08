@@ -56,7 +56,7 @@ public class WeatherController {
         };
 
         long delay = 0;
-        long period = 5*1000; //6 * 60 * 1000;
+        long period = 6 * 60 * 1000;
         timer.scheduleAtFixedRate(task, delay, period);
     }
 }

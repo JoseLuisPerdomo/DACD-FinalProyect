@@ -1,34 +1,31 @@
 package org.PerdomoDeVega.control;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JFrame;
+import org.apache.activemq.ActiveMQConnectionFactory;
+import javax.jms.*;
 
 public class Main {
-        public static void main(String[] args) {
-            // Crear un marco (ventana)
-            JFrame frame = new JFrame("Ejemplo de Eventos");
-            frame.setSize(300, 200);
+    public static void main(String[] args) throws JMSException {
+        // Configura la conexión a ActiveMQ
+        ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+        Connection connection = connectionFactory.createConnection();
+        connection.start();
 
-            // Crear un botón
-            JButton button = new JButton("Clic aquí");
+        // Crea una sesión
+        Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
-            // Crear un ActionListener para manejar el evento de clic en el botón
-            ActionListener actionListener = new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    System.out.println("¡Se hizo clic en el botón!");
-                }
-            };
+        // Crea una cola
+        Destination destination = session.createQueue("mi_cola");
 
-            // Asociar el ActionListener al botón
-            button.addActionListener(actionListener);
+        // Crea un productor
+        MessageProducer producer = session.createProducer(destination);
 
-            // Agregar el botón al marco
-            frame.getContentPane().add(button);
+        // Crea un mensaje
+        TextMessage message = session.createTextMessage("Hola, este es un mensaje de ejemplo.");
 
-            // Hacer visible el marco
-            frame.setVisible(true);
-        }
+        // Envia el mensaje
+        producer.send(message);
+
+        // Cierra la conexión
+        connection.close();
     }
-
+}
