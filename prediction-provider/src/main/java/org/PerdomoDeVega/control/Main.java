@@ -1,7 +1,6 @@
 package org.PerdomoDeVega.control;
 
 import org.PerdomoDeVega.exceptions.StoreException;
-import org.PerdomoDeVega.model.Location;
 import org.PerdomoDeVega.model.Weather;
 import org.apache.activemq.ActiveMQConnection;
 
@@ -23,16 +22,18 @@ public class Main {
         //weatherController.execute("CanaryIslandWeather.db", tableNames);
 
         WeatherEventStore weatherEventStore = new WeatherEventStore();
+        OpenWeatherMapProvider openWeatherMapProvider = new OpenWeatherMapProvider();
         List<String> topic = new ArrayList<>();
         topic.add("Weather.prediction.test");
-        Weather weather = new Weather("2023", "234", "323", "65", "22", "1", new Location("Aqui", "o", "que"));
-        List<Weather> weatherList = new ArrayList<>();
-        weatherList.add(weather);
-        try {
-            weatherEventStore.prepareForStore(ActiveMQConnection.DEFAULT_BROKER_URL, topic);
-            weatherEventStore.StoreData("Si", "Hola", weatherList);
-        } catch (StoreException e) {
-            System.out.println(e.getMessage());
+        List<Weather> weatherList;
+        for (int i = 0; i < 8; i++) {
+            weatherList = openWeatherMapProvider.getWeatherData(openWeatherMapProvider.saveLocations("prediction-provider/src/main/resources/Locations").get(i));
+            try {
+                weatherEventStore.prepareForStore(ActiveMQConnection.DEFAULT_BROKER_URL, topic);
+                weatherEventStore.StoreData("", "", weatherList);
+            } catch (StoreException e) {
+                System.out.println(e.getMessage());
+            }
         }
 
     }

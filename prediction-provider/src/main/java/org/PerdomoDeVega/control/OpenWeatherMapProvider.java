@@ -107,7 +107,6 @@ public class OpenWeatherMapProvider implements WeatherProvider{
         List<String> WeatherValues = new ArrayList<>();
         if (weatherJson != null) {
             String day = weatherJson.get("dt_txt").getAsString().substring(0, 10);
-            System.out.println(day);
             String temperature = weatherJson.getAsJsonObject("main").get("temp").getAsString();
             String precipitation = weatherJson.get("pop").getAsString();
             String humidity = weatherJson.getAsJsonObject("main").get("humidity").getAsString();
