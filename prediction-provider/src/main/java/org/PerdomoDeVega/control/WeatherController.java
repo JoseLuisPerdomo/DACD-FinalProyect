@@ -26,10 +26,6 @@ public class WeatherController {
         return weatherProvider;
     }
 
-    public WeatherStore getWeatherStore() {
-        return weatherStore;
-    }
-
     public void prepareExecution(String dbPath, List<String> tableNames){
         try {
             weatherStore.prepareForStore(dbPath, tableNames);
@@ -58,5 +54,9 @@ public class WeatherController {
         long delay = 0;
         long period = 6 * 60 * 1000;
         timer.scheduleAtFixedRate(task, delay, period);
+    }
+
+    public WeatherStore getWeatherStore() {
+        return weatherStore;
     }
 }

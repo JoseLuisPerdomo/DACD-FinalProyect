@@ -55,8 +55,8 @@ public class OpenWeatherMapProvider implements WeatherProvider{
 
         List<String> tableNames = new ArrayList<>(locationList.size());
 
-        for (int i = 0; i < locationList.size(); i++) {
-            tableNames.add(locationList.get(i).getName());
+        for (Location location : locationList) {
+            tableNames.add(location.getName());
         }
 
         return tableNames;
