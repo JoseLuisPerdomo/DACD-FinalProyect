@@ -2,14 +2,16 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.example</groupId>
-  <artifactId>DACDPrac1_Jose_Perdomo</artifactId>
+  <artifactId>Practica-Prediction</artifactId>
   <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>Archetype - DACDPrac1_Jose_Perdomo</name>
+    <name>Archetype - Practica-Prediction</name>
   <url>https://maven.apache.org</url>
     <modules>
-        <module>event-builder-store</module>
+        <module>Datalake-Builder</module>
       <module>prediction-provider</module>
+        <module>HappyHotelBusinessUnit</module>
+        <module>HappyHotelSensor</module>
     </modules>
 
 

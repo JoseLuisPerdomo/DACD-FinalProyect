@@ -66,11 +66,6 @@ public class WeatherEventStore implements WeatherStore{
                 throw new StoreException(e.getMessage(), e);
             }
         }
-        try {
-            connection.close();
-        } catch (JMSException e) {
-            throw new StoreException(e.getMessage(), e);
-        }
     }
 
     public List<String> SerializeWeathers(List<Weather> weatherData){
