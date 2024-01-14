@@ -10,7 +10,7 @@ public class Main {
         List<String> topicsName = new ArrayList<>();
         topicsName.add("Weather.Prediction");
         topicsName.add("Hotel.Rates");
-        EventStoreController eventStoreController = new EventStoreController(new FilePredictionStore("C:\\Users\\Usuario\\Downloads\\DataLake"), new WeatherHotelEventReceiver("tcp://localhost:61616", topicsName));
+        EventStoreController eventStoreController = new EventStoreController(new FilePredictionStore(args[0]), new WeatherHotelEventReceiver("tcp://localhost:61616", topicsName));
             List<List<String>> events = null;
             try {
                 events = eventStoreController.getEventReceiver().ReceiveEvent();
@@ -23,11 +23,9 @@ public class Main {
             for (String event : events.get(i)) {
                 if (i == 0) {
                     eventStoreController.getBuilderStore().StoreWeather(event);
-                    System.out.println(event);
                 }
                 else{
                     eventStoreController.getBuilderStore().StoreHotelRates(event);
-                    System.out.println(event);
                 }
             }
         }

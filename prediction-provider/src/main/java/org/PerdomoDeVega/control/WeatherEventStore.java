@@ -5,6 +5,7 @@ import javax.jms.*;
 import com.google.gson.Gson;
 import org.PerdomoDeVega.exceptions.StoreException;
 import org.PerdomoDeVega.model.Weather;
+import org.PerdomoDeVega.model.WeatherPredictionEvent;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import java.util.ArrayList;
@@ -48,11 +49,11 @@ public class WeatherEventStore implements WeatherStore{
 
 
     @Override
-    public void StoreData(String dbPath, String tableName, List<Weather> weatherData) throws StoreException {
+    public void StoreData(String dbPath, String tableName, List<WeatherPredictionEvent> weatherPredictions) throws StoreException {
 
-        List<String> serializedWeathers = SerializeWeathers(weatherData);
+        List<String> serializedWeathers = SerializeWeathers(weatherPredictions);
 
-        for (int i = 0; i < weatherData.size();i++) {
+        for (int i = 0; i < weatherPredictions.size();i++) {
             try {
                 TextMessage message = session.createTextMessage(serializedWeathers.get(i));
 
@@ -60,19 +61,17 @@ public class WeatherEventStore implements WeatherStore{
 
                 producer.send(message);
 
-                System.out.println("Message sent '" + message.getText() + "'");
-
             } catch (JMSException e) {
                 throw new StoreException(e.getMessage(), e);
             }
         }
     }
 
-    public List<String> SerializeWeathers(List<Weather> weatherData){
+    public List<String> SerializeWeathers(List<WeatherPredictionEvent> weatherPredictions){
         List<String> SerializedData = new ArrayList<>();
-        for (Weather weatherDatum : weatherData) {
+        for (WeatherPredictionEvent weatherPrediction : weatherPredictions) {
             Gson gson = new Gson();
-            SerializedData.add(gson.toJson(weatherDatum));
+            SerializedData.add(gson.toJson(weatherPrediction));
         }
         return SerializedData;
     }

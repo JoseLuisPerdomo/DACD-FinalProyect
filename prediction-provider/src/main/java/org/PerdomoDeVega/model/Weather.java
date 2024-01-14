@@ -1,7 +1,8 @@
 package org.PerdomoDeVega.model;
 
 public class Weather {
-    private final String date;
+    private final String day;
+    private final String time;
     private final String temperature;
     private final String rain;
     private final String humedity;
@@ -9,8 +10,9 @@ public class Weather {
     private final String windSpeed;
     private final Location location;
 
-    public Weather(String date, String temperature, String rain, String humedity, String clouds, String windSpeed, Location location) {
-        this.date = date;
+    public Weather(String date, String time, String temperature, String rain, String humedity, String clouds, String windSpeed, Location location) {
+        this.time = time;
+        this.day = date;
         this.temperature = temperature;
         this.rain = rain;
         this.humedity = humedity;
@@ -20,7 +22,7 @@ public class Weather {
     }
 
     public String getDate() {
-        return date;
+        return day;
     }
 
     public String getTemperature() {
@@ -46,11 +48,14 @@ public class Weather {
     public Location getLocation() {
         return location;
     }
+    public String getTime() {
+        return time;
+    }
 
     @Override
     public String toString() {
         return "Weather{" +
-                "date='" + date + '\'' +
+                "date='" + day + '\'' +
                 ", temperature='" + temperature + '\'' +
                 ", rain='" + rain + '\'' +
                 ", humedity='" + humedity + '\'' +

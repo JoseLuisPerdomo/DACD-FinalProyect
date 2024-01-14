@@ -65,8 +65,8 @@ public class OpenWeatherMapProvider implements WeatherProvider{
     }
 
     @Override
-    public List<Weather> getWeatherData(Location location) {
-        String apiRequest = String.format("https://api.openweathermap.org/data/2.5/forecast?lat=%s&lon=%s&units=metric&appid=036defba6c31cb2bbe3259bbfb66dc75", location.getLatitude(), location.getLongitude());
+    public List<Weather> getWeatherData(Location location, String apiKey) {
+        String apiRequest = String.format("https://api.openweathermap.org/data/2.5/forecast?lat=%s&lon=%s&units=metric&appid=" + apiKey, location.getLatitude(), location.getLongitude());
         try {
             Connection.Response response = Jsoup.connect(apiRequest)
                     .ignoreContentType(true)
@@ -86,7 +86,7 @@ public class OpenWeatherMapProvider implements WeatherProvider{
         List<Weather> weatherList = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             List<String> weatherValues = getRelevantVariables(weatherJson.get(i));
-            weatherList.add(new Weather(weatherValues.get(0), weatherValues.get(1), weatherValues.get(2), weatherValues.get(3), weatherValues.get(4), weatherValues.get(5), location));
+            weatherList.add(new Weather(weatherValues.get(0), weatherValues.get(1), weatherValues.get(2), weatherValues.get(3), weatherValues.get(4), weatherValues.get(5), weatherValues.get(6), location));
         }
         return weatherList;
     }
@@ -107,12 +107,14 @@ public class OpenWeatherMapProvider implements WeatherProvider{
         List<String> WeatherValues = new ArrayList<>();
         if (weatherJson != null) {
             String day = weatherJson.get("dt_txt").getAsString().substring(0, 10);
+            String time = weatherJson.get("dt_txt").getAsString().substring(9);
             String temperature = weatherJson.getAsJsonObject("main").get("temp").getAsString();
             String precipitation = weatherJson.get("pop").getAsString();
             String humidity = weatherJson.getAsJsonObject("main").get("humidity").getAsString();
             String clouds = weatherJson.getAsJsonObject("clouds").get("all").getAsString();
             String windSpeed = weatherJson.getAsJsonObject("wind").get("speed").getAsString();
             WeatherValues.add(day);
+            WeatherValues.add(time);
             WeatherValues.add(String.valueOf(temperature).replace(',', '.'));
             WeatherValues.add(String.valueOf(precipitation).replace(',', '.'));
             WeatherValues.add(String.valueOf(humidity).replace(',', '.'));

@@ -7,27 +7,22 @@ import javax.jms.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WeatherHotelEventReceiver implements EventReceiver{
-
+public class SensorsReceiver implements SensorReciever{
     private static String brokerURL;
     private static List<String> topicsName;
     private static List<List<String>> receivedMessages;
-    private static List<String> clientsID;
-    private static List<String> clientsNames;
+    private static String clientID;
+    private static String clientName;
 
 
-    public WeatherHotelEventReceiver(String brokerURL, List<String> topicsName) {
-        WeatherHotelEventReceiver.brokerURL = brokerURL;
-        WeatherHotelEventReceiver.topicsName = topicsName;
-        WeatherHotelEventReceiver.receivedMessages = new ArrayList<>();
+    public SensorsReceiver(String brokerURL, List<String> topicsName) {
+        SensorsReceiver.brokerURL = brokerURL;
+        SensorsReceiver.topicsName = topicsName;
+        SensorsReceiver.receivedMessages = new ArrayList<>();
         receivedMessages.add(new ArrayList<>());
         receivedMessages.add(new ArrayList<>());
-        WeatherHotelEventReceiver.clientsID = new ArrayList<>();
-        WeatherHotelEventReceiver.clientsID.add("1001");
-        WeatherHotelEventReceiver.clientsID.add("1002");
-        WeatherHotelEventReceiver.clientsNames = new ArrayList<>();
-        WeatherHotelEventReceiver.clientsNames.add("Client1");
-        WeatherHotelEventReceiver.clientsNames.add("Client2");
+        SensorsReceiver.clientID = "1001";
+        SensorsReceiver.clientName = "Client3";
 
     }
 
@@ -40,7 +35,7 @@ public class WeatherHotelEventReceiver implements EventReceiver{
             Connection connection;
 
             try {
-                connection = init_connection(i);
+                connection = init_connection();
                 durableSubscriber = create_durableSubscriber(connection, i);
             } catch (JMSException e) {
                 throw new ReceiverException(e.getMessage(), e);
@@ -76,13 +71,13 @@ public class WeatherHotelEventReceiver implements EventReceiver{
     private TopicSubscriber create_durableSubscriber(Connection connection, int i) throws JMSException{
         Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
         Topic destination = session.createTopic(topicsName.get(i));
-        return session.createDurableSubscriber(destination, clientsNames.get(i));
+        return session.createDurableSubscriber(destination, clientName);
     }
 
-    private static Connection init_connection(int i) throws JMSException{
+    private static Connection init_connection() throws JMSException{
         ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(brokerURL);
         Connection connection = connectionFactory.createConnection();
-        connection.setClientID(clientsID.get(i));
+        connection.setClientID(clientID);
 
         connection.start();
 
@@ -90,5 +85,4 @@ public class WeatherHotelEventReceiver implements EventReceiver{
 
         return connection;
     }
-
 }

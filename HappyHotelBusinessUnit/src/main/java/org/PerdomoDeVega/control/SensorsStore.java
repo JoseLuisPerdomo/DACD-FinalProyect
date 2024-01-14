@@ -1,4 +1,5 @@
 package org.PerdomoDeVega.control;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -6,25 +7,22 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.time.LocalDateTime;
 
-public class FilePredictionStore implements BuilderStore{
+public class SensorsStore implements EventStore{
+
     private static String path;
     private static String fileName;
 
-    public FilePredictionStore(String path) {
-        FilePredictionStore.path = path;
-        path = path + "DataLake";
+    public SensorsStore(String path) {
+        SensorsStore.path = path;
+        path = path + "DataMart";
         File directory = new File(path);
         directory.mkdirs();
-        File subdirectory = new File(path + "\\eventstore");
+        File subdirectory = new File(path + "\\currentEvents");
         subdirectory.mkdirs();
-        File subdirectoryprediction = new File(path + "\\eventstore\\Weather.Prediction");
+        File subdirectoryprediction = new File(path + "\\currentEvents\\Weather.Predictions");
         subdirectoryprediction.mkdirs();
-        File subdirectoryX = new File(path + "\\eventstore\\Hotel.Rates");
+        File subdirectoryX = new File(path + "\\currentEvents\\Hotel.Rates");
         subdirectoryX.mkdirs();
-        File subsubdirectoryX = new File(path + "\\eventstore\\Hotel.Rates\\HappyHotelSensor");
-        subsubdirectoryX.mkdirs();
-        File subsubdirectoryWeather = new File(path + "\\eventstore\\Weather.Prediction\\Prediction-Provider");
-        subsubdirectoryWeather.mkdirs();
     }
 
     @Override
@@ -32,7 +30,7 @@ public class FilePredictionStore implements BuilderStore{
         LocalDateTime localDateTime = LocalDateTime.now();
         String today = localDateTime.toString();
         today = today.substring(0, 10).replace("-", "");
-        createFile("\\eventstore\\Weather.Prediction\\Prediction-Provider" + "\\" + today + ".events");
+        createFile("\\currentEvents\\Weather.Predictions" + "\\" + today + ".events");
         message = message + "\n";
 
         try {
@@ -48,7 +46,7 @@ public class FilePredictionStore implements BuilderStore{
         LocalDateTime localDateTime = LocalDateTime.now();
         String today = localDateTime.toString();
         today = today.substring(0, 10).replace("-", "");
-        createFile("\\eventstore\\Hotel.Rates\\HappyHotelSensor" + "\\" + today + ".events");
+        createFile("\\currentEvents\\Hotel.Rates" + "\\" + today + ".events");
         hotelRates = hotelRates + "\n";
 
         try {
@@ -68,7 +66,7 @@ public class FilePredictionStore implements BuilderStore{
                 throw new RuntimeException(e);
             }
         }
-        FilePredictionStore.fileName = fileName;
+        SensorsStore.fileName = fileName;
     }
-}
 
+}

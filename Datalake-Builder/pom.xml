@@ -10,6 +10,24 @@
     <name>Archetype - event-builder-store</name>
     <url>https://maven.apache.org</url>
 
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>Datalake-Builder/src/main/java/org/PerdomoDeVega/control/Main.java</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 <dependencies>
 <dependency>
     <groupId>org.apache.activemq</groupId>

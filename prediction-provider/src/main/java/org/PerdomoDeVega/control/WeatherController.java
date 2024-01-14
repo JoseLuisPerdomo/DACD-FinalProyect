@@ -34,7 +34,7 @@ public class WeatherController {
         }
     }
 
-    public void execute(String dbPath, List<String> tableNames){
+    public void execute(String dbPath, List<String> tableNames, String apiKey){
 
         Timer timer = new Timer();
         TimerTask task = new TimerTask() {
@@ -42,7 +42,7 @@ public class WeatherController {
             public void run() {
                 try {
                     for (int i = 0; i < tableNames.size(); i++) {
-                        weatherStore.StoreData(dbPath, locations.get(i).getName(), weatherProvider.getWeatherData(locations.get(i)));
+                        weatherStore.StoreData(dbPath, locations.get(i).getName(), null);
                     }
                 } catch (StoreException e) {
                     System.out.println(e.getMessage());

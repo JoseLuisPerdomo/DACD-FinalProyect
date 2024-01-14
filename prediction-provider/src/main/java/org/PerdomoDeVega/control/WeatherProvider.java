@@ -8,6 +8,6 @@ import java.util.List;
 public interface WeatherProvider {
 
     List<Location> saveLocations(String path);
-    List<Weather> getWeatherData(Location location);
+    List<Weather> getWeatherData(Location location, String apiKey);
     List<String> addTableNames(List<Location> locationList);
 }
